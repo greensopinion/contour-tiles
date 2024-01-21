@@ -28,7 +28,10 @@ GDAL_COMPRESS_OPTIONS := -co COMPRESS=LZW -co BIGTIFF=YES -co PREDICTOR=2 -co TI
 #	Main Targets
 # ----------------------------------------------------------------------------------------------------------------------
 
-all: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/slope.mbtiles $(MBTILESDIR)/contour.mbtiles $(MBTILESDIR)/OSloOVERLAY_LR_Alps_16.mbtiles
+all: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/contour.mbtiles
+
+
+toomany: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/slope.mbtiles $(MBTILESDIR)/contour.mbtiles $(MBTILESDIR)/OSloOVERLAY_LR_Alps_16.mbtiles
 
 # ----------------------------------------------------------------------------------------------------------------------
 #	Building mbtiles
@@ -113,9 +116,8 @@ $(TIFDIR)/contour.tif:
 
 	for x in $$(seq -f "%02g" $(MIN_X) $(MAX_X)) ; do \
 		for y in $$(seq -f "%02g" $(MIN_Y) $(MAX_Y)) ; do \
-			wget http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_$${x}_$${y}.zip --no-check-certificate -O $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
+			wget -nc http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_$${x}_$${y}.zip --no-check-certificate -O $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
 			unzip -p $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip *.tif > $(TIFDIR)/srtm_$${x}_$${y}.tif; \
-			rm $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
 		done; \
 		gdal_merge.py $(GDAL_COMPRESS_OPTIONS) -o $(TIFDIR)/contour-$${x}.tif $(TIFDIR)/srtm_$${x}_*.tif; \
 		rm $(TIFDIR)/srtm_$${x}_*.tif; \
