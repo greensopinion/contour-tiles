@@ -61,12 +61,12 @@ $(MBTILESDIR)/OSloOVERLAY_LR_Alps_16.mbtiles:
 
 $(GEOJSONDIR)/contour.geojson: $(TIFDIR)/contour.tif
 	mkdir -p $(GEOJSONDIR)
-	seq $(MIN_Z) 20 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) gdal_contour -f GeoJSON -nln contourlines -a elev -fl {1} $< $(GEOJSONDIR)/contour{1}.geojson
-	seq $(MIN_Z) 100 $(MAX_Z) | parallel 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 10 },/g" $(GEOJSONDIR)/contour{1}.geojson'
-	seq $$(( $(MIN_Z) + 20 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
-	seq $$(( $(MIN_Z) + 40 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
-	seq $$(( $(MIN_Z) + 60 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
-	seq $$(( $(MIN_Z) + 80 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
+	seq $(MIN_Z) 20 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) --eta gdal_contour -f GeoJSON -nln contourlines -a elev -fl {1} $< $(GEOJSONDIR)/contour{1}.geojson
+	seq $(MIN_Z) 100 $(MAX_Z) | parallel  --eta 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 10 },/g" $(GEOJSONDIR)/contour{1}.geojson'
+	seq $$(( $(MIN_Z) + 20 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS)  --eta 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
+	seq $$(( $(MIN_Z) + 40 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) --eta 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
+	seq $$(( $(MIN_Z) + 60 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) --eta 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
+	seq $$(( $(MIN_Z) + 80 )) 100 $(MAX_Z) | parallel --jobs $(CONTOUR_JOBS) --eta 'sed -i "s/\"type\": \"Feature\",/\"type\": \"Feature\", \"tippecanoe\" : { \"minzoom\": 13 },/g" $(GEOJSONDIR)/contour{1}.geojson'
 	touch $@
 
 $(GEOJSONDIR)/glacier_contour20.geojson: /data/contour2pgsql-contour /sql/glacier_contour20.sql
