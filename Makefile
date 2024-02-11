@@ -42,11 +42,11 @@ toomany: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/slope.mbtiles $(MBTILESDI
 
 $(PMTILESDIR)/hillshade.pmtiles: $(MBTILESDIR)/hillshade.mbtiles
 	mkdir -p $(PMTILESDIR)
-	pmtiles convert $(MBTILESDIR)/hillshade.mbtiles $(PMTILESDIR)/hillshade.pmtiles
+	/usr/local/pmtiles convert $(MBTILESDIR)/hillshade.mbtiles $(PMTILESDIR)/hillshade.pmtiles
 
 $(PMTILESDIR)/contour.pmtiles: $(MBTILESDIR)/contour.mbtiles
 	mkdir -p $(PMTILESDIR)
-	pmtiles convert $(MBTILESDIR)/contour.mbtiles $(PMTILESDIR)/contour.pmtiles
+	/usr/local/pmtiles convert $(MBTILESDIR)/contour.mbtiles $(PMTILESDIR)/contour.pmtiles
 
 # ----------------------------------------------------------------------------------------------------------------------
 #	Building mbtiles
