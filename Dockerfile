@@ -42,6 +42,13 @@ RUN make install
 # cleanup
 RUN rm -rf /tmp/tippecanoe
 
+WORKDIR /tmp
+ENV GO_PMTILES=go-pmtiles_1.16.1_Linux_x86_64.tar.gz
+RUN wget https://github.com/protomaps/go-pmtiles/releases/download/v1.16.1/go-pmtiles_1.16.1_Linux_x86_64.tar.gz -O go-pmtiles.tgz \
+    && tar -xzf go-pmtiles.tgz \
+    && cp /tmp/pmtiles /usr/local \
+    && rm -f /tmp/go-pmtiles.tgz /tmp/pmtiles
+
 # Add the Makefile & sql scripts
 COPY Makefile /contours/Makefile
 COPY sql /sql

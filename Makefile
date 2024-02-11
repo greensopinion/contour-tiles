@@ -7,6 +7,7 @@ TIFDIR := /data/tif
 DOWNLOADDIR := /data/download
 GEOJSONDIR := /data/geojson
 MBTILESDIR := /data/mbtiles
+PMTILESDIR := /data/pmtiles
 LARGETMPDIR := /data/tmp
 
 DESCRIPTION := ${DESCRIPTION}
@@ -24,14 +25,28 @@ GDAL_CACHEMAX := ${GDAL_CACHEMAX}
 
 GDAL_COMPRESS_OPTIONS := -co COMPRESS=LZW -co BIGTIFF=YES -co PREDICTOR=2 -co TILED=YES
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 #	Main Targets
 # ----------------------------------------------------------------------------------------------------------------------
 
-all: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/contour.mbtiles
+all: $(PMTILESDIR)/hillshade.pmtiles $(PMTILESDIR)/contour.pmtiles
 
+mbtiles: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/contour.mbtiles
 
 toomany: $(MBTILESDIR)/hillshade.mbtiles $(MBTILESDIR)/slope.mbtiles $(MBTILESDIR)/contour.mbtiles $(MBTILESDIR)/OSloOVERLAY_LR_Alps_16.mbtiles
+
+# ------
+# Building pmtiles
+# ------
+
+$(PMTILESDIR)/hillshade.pmtiles: $(MBTILESDIR)/hillshade.mbtiles
+	mkdir -p $(PMTILESDIR)
+	pmtiles convert $(MBTILESDIR)/hillshade.mbtiles $(PMTILESDIR)/hillshade.pmtiles
+
+$(PMTILESDIR)/contour.pmtiles: $(MBTILESDIR)/contour.mbtiles
+	mkdir -p $(PMTILESDIR)
+	pmtiles convert $(MBTILESDIR)/contour.mbtiles $(PMTILESDIR)/contour.pmtiles
 
 # ----------------------------------------------------------------------------------------------------------------------
 #	Building mbtiles
