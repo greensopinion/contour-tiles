@@ -123,7 +123,7 @@ $(TIFDIR)/slope.tif: $(TIFDIR)/contour.tif
 
 $(TIFDIR)/hillshade.tif: $(TIFDIR)/contour.tif
 	mkdir -p $(TIFDIR)
-	gdaldem hillshade -z 5 $< $@
+	gdaldem hillshade -z 1.7 $< $@
 
 $(TIFDIR)/contour.tif:
 	mkdir -p $(DOWNLOADDIR)
