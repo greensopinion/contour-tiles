@@ -65,7 +65,7 @@ $(MBTILESDIR)/hillshade.mbtiles: $(TIFDIR)/hillshade.tif
 $(MBTILESDIR)/slope.mbtiles: $(TIFDIR)/slope.tif
 	mkdir -p $(MBTILESDIR)
 	gdal_translate --config GDAL_CACHEMAX $(GDAL_CACHEMAX) $< $@ -of MBTILES
-	gdaladdo -r nearest $@ 2 4 8 16
+	gdaladdo -r bilinear $@ 2 4 8 16
 
 $(MBTILESDIR)/OSloOVERLAY_LR_Alps_16.mbtiles:
 	curl https://download.openslopemap.org/mbtiles/OSloOVERLAY_LR_Alps_16.mbtiles --output $@
