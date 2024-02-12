@@ -131,7 +131,7 @@ $(TIFDIR)/contour.tif:
 
 	for x in $$(seq -f "%02g" $(MIN_X) $(MAX_X)) ; do \
 		for y in $$(seq -f "%02g" $(MIN_Y) $(MAX_Y)) ; do \
-			wget -nc http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_$${x}_$${y}.zip --no-check-certificate -O $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
+			wget -nc https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_$${x}_$${y}.zip --no-check-certificate -O $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
 			unzip -p $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip *.tif > $(TIFDIR)/srtm_$${x}_$${y}.tif; \
 		done; \
 		gdal_merge.py $(GDAL_COMPRESS_OPTIONS) -o $(TIFDIR)/contour-$${x}.tif $(TIFDIR)/srtm_$${x}_*.tif; \
