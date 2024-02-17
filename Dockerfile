@@ -51,6 +51,7 @@ RUN wget https://github.com/protomaps/go-pmtiles/releases/download/v1.16.1/go-pm
 
 # Add the Makefile & sql scripts
 COPY Makefile /contours/Makefile
+COPY download.sh /contours/download.sh
 COPY sql /sql
 
 WORKDIR /contours

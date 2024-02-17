@@ -129,11 +129,8 @@ $(TIFDIR)/contour.tif:
 	mkdir -p $(DOWNLOADDIR)
 	mkdir -p $(TIFDIR)
 
+	./download.sh $(MIN_X) $(MAX_X) $(MIN_Y) $(MAX_Y) $(DOWNLOADDIR) $(TIFDIR)
 	for x in $$(seq -f "%02g" $(MIN_X) $(MAX_X)) ; do \
-		for y in $$(seq -f "%02g" $(MIN_Y) $(MAX_Y)) ; do \
-			wget -nc https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_$${x}_$${y}.zip -O $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip; \
-			unzip -p $(DOWNLOADDIR)/srtm_$${x}_$${y}.zip *.tif > $(TIFDIR)/srtm_$${x}_$${y}.tif; \
-		done; \
 		gdal_merge.py $(GDAL_COMPRESS_OPTIONS) -o $(TIFDIR)/contour-$${x}.tif $(TIFDIR)/srtm_$${x}_*.tif; \
 		rm $(TIFDIR)/srtm_$${x}_*.tif; \
 	done; \
